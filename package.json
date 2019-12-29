@@ -1,5 +1,5 @@
 {
-  "name": "@jugnuagrawal/emcrud",
+  "name": "@jugnuagrawal/express-mongoose-crud",
   "version": "1.0.0",
   "description": "A node js library to generate a microservice capable of doing CRUD operation over REST API for the given schema structure.",
   "main": "index.js",
@@ -26,5 +26,9 @@
   "bugs": {
     "url": "https://github.com/jugnuagrawal/express-mongoose-crud/issues"
   },
-  "homepage": "https://github.com/jugnuagrawal/express-mongoose-crud#readme"
+  "homepage": "https://github.com/jugnuagrawal/express-mongoose-crud#readme",
+  "dependencies": {
+    "log4js": "^6.1.0",
+    "make-dir": "^3.0.0"
+  }
 }
