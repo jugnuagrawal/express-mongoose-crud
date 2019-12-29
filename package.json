@@ -1,5 +1,5 @@
 {
-  "name": "express-mongoose-crud",
+  "name": "@jugnuagrawal/emcrud",
   "version": "1.0.0",
   "description": "A node js library to generate a microservice capable of doing CRUD operation over REST API for the given schema structure.",
   "main": "index.js",
@@ -14,9 +14,6 @@
     "CRUD",
     "Microservice",
     "Generator",
-    "Node",
-    "JS",
-    "Swagger",
     "Express",
     "Mongoose",
     "REST"
