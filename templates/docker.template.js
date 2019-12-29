@@ -1,11 +1,15 @@
-
-function _getContent(_port, _database) {
+/**
+ * 
+ * @param {string} port 
+ * @param {string} database 
+ */
+function getContent(port, database) {
     return `
 FROM node:10-alpine
 WORKDIR /app
 COPY . .
-ENV PORT ${_port}
-ENV MONGO_URL mongodb://localhost:27017/${_database}
+ENV PORT ${port}
+ENV MONGO_URL mongodb://localhost:27017/${database}
 ENV LOG_LEVEL info
 RUN npm install
 CMD [ "node", "app.js" ]
@@ -14,4 +18,4 @@ EXPOSE \${PORT}
 }
 
 
-module.exports.getContent = _getContent;
+module.exports.getContent = getContent;

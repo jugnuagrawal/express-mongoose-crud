@@ -1,10 +1,10 @@
-const path = require('path');
-
-module.exports.getContent = _getContent;
-
-function _getContent(_nameKebabCase) {
+/**
+ * 
+ * @param {string} nameKebabCase 
+ */
+function getContent(nameKebabCase) {
   return `{
-  "name": "${_nameKebabCase}",
+  "name": "${nameKebabCase}",
   "version": "1.0.0",
   "description": "An express mongoose CRUD API",
   "main": "app.js",
@@ -28,3 +28,5 @@ function _getContent(_nameKebabCase) {
 }
 `;
 }
+
+module.exports.getContent = getContent;

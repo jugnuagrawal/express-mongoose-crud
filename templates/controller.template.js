@@ -1,18 +1,19 @@
-const path = require('path');
-
-module.exports.getContent = _getContent;
-
-function _getContent(_nameCamelCase, _nameKebabCase) {
+/**
+ * 
+ * @param {string} nameCamelCase 
+ * @param {string} nameKebabCase 
+ */
+function getContent(nameCamelCase, nameKebabCase) {
     return `const router = require('express').Router();
 const mongoose = require('mongoose');
 const log4js = require('log4js');
-const schemaJSON = require('../schemas/${_nameKebabCase}.schema');
-const messages = require('../messages/${_nameKebabCase}.messages');
+const schemaJSON = require('../schemas/${nameKebabCase}.schema');
+const messages = require('../messages/${nameKebabCase}.messages');
 
 const schema = new mongoose.Schema(schemaJSON);
 schema.index('_id');
-const logger = log4js.getLogger('${_nameKebabCase}.controller');
-const model = mongoose.model('${_nameCamelCase}', schema, '${_nameCamelCase}');
+const logger = log4js.getLogger('${nameKebabCase}.controller');
+const model = mongoose.model('${nameCamelCase}', schema, '${nameCamelCase}');
 
 router.get('/', (req, res) => {
     async function execute() {
@@ -136,3 +137,5 @@ router.delete('/:id', (req, res) => {
 
 module.exports = router;`
 }
+
+module.exports.getContent = getContent;

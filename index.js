@@ -20,53 +20,62 @@ String.prototype.toKebabCase = function () {
     return this.split(' ').map(e => e.toLowerCase()).join('-');
 }
 
-function createProject(_data) {
-    var _nameCamelCase = _data.name.toCamelCase();
-    var _nameKebabCase = _data.name.toKebabCase();
-    var _namePascalCase = _data.name.toPascalCase();
-    var _api = _data.api ? _data.api : _nameCamelCase;
-    var _path = path.join(_nameKebabCase);
-    if (_data.filePath) {
-        var segments = _data.filePath.split('/');
+/**
+ * 
+ * @param {any} schema The Schema JSON
+ */
+function createProject(schema) {
+    var nameCamelCase = schema.name.toCamelCase();
+    var nameKebabCase = schema.name.toKebabCase();
+    var namePascalCase = schema.name.toPascalCase();
+    var basePath = schema.basePath ? schema.basePath : '';
+    if (basePath && basePath != '') {
+        if (!basePath.startsWith('/')) {
+            basePath = '/' + basePath;
+        }
+    }
+    var projectPath = path.join(nameKebabCase);
+    if (schema.filePath) {
+        var segments = schema.filePath.split('/');
         segments.pop();
-        segments.push(_nameKebabCase);
-        _path = segments.join('/');
+        segments.push(nameKebabCase);
+        projectPath = segments.join('/');
     }
-    var _database = _data.database ? _data.database : _nameCamelCase;
-    var _port = _data.port ? _data.port : 3000;
-    if (!fs.existsSync(_path)) {
-        fs.mkdirSync(_path);
+    var schemabase = schema.database ? schema.database : nameCamelCase;
+    var _port = schema.port ? schema.port : 3000;
+    if (!fs.existsSync(projectPath)) {
+        fs.mkdirSync(projectPath);
     }
-    if (!fs.existsSync(path.join(_path, 'controllers'))) {
-        fs.mkdirSync(path.join(_path, 'controllers'));
+    if (!fs.existsSync(path.join(projectPath, 'controllers'))) {
+        fs.mkdirSync(path.join(projectPath, 'controllers'));
     }
-    if (!fs.existsSync(path.join(_path, 'schemas'))) {
-        fs.mkdirSync(path.join(_path, 'schemas'));
+    if (!fs.existsSync(path.join(projectPath, 'schemas'))) {
+        fs.mkdirSync(path.join(projectPath, 'schemas'));
     }
-    if (!fs.existsSync(path.join(_path, 'messages'))) {
-        fs.mkdirSync(path.join(_path, 'messages'));
+    if (!fs.existsSync(path.join(projectPath, 'messages'))) {
+        fs.mkdirSync(path.join(projectPath, 'messages'));
     }
 
-    fs.writeFileSync(path.join(_path, 'controllers', _nameKebabCase + '.controller.js'), controller.getContent(_nameCamelCase, _nameKebabCase), 'utf-8');
-    console.log(_nameKebabCase + '.controller.js created!');
-    fs.writeFileSync(path.join(_path, 'controllers', 'index.js'), indexController.getContent(_nameCamelCase, _nameKebabCase), 'utf-8');
+    fs.writeFileSync(path.join(projectPath, 'controllers', nameKebabCase + '.controller.js'), controller.getContent(nameCamelCase, nameKebabCase), 'utf-8');
+    console.log(nameKebabCase + '.controller.js created!');
+    fs.writeFileSync(path.join(projectPath, 'controllers', 'index.js'), indexController.getContent(nameCamelCase, nameKebabCase), 'utf-8');
     console.log('index.js created!');
-    fs.writeFileSync(path.join(_path, 'schemas', _nameKebabCase + '.schema.json'), JSON.stringify(_data.schema, null, 4), 'utf-8');
-    console.log(_nameKebabCase + '.schema.json created!');
-    fs.writeFileSync(path.join(_path, 'messages', _nameKebabCase + '.messages.js'), messages.getContent(), 'utf-8');
-    console.log(_nameKebabCase + '.messages.js created!');
+    fs.writeFileSync(path.join(projectPath, 'schemas', nameKebabCase + '.schema.json'), JSON.stringify(schema.schema, null, 4), 'utf-8');
+    console.log(nameKebabCase + '.schema.json created!');
+    fs.writeFileSync(path.join(projectPath, 'messages', nameKebabCase + '.messages.js'), messages.getContent(), 'utf-8');
+    console.log(nameKebabCase + '.messages.js created!');
 
-    fs.writeFileSync(path.join(_path, 'app.js'), app.getContent(_nameKebabCase, path.join('/', _api), _database, _port), 'utf-8')
+    fs.writeFileSync(path.join(projectPath, 'app.js'), app.getContent(nameKebabCase, basePath, schemabase, _port), 'utf-8')
     console.log('app.js created!');
-    fs.writeFileSync(path.join(_path, 'package.json'), package.getContent(_nameKebabCase), 'utf-8')
+    fs.writeFileSync(path.join(projectPath, 'package.json'), package.getContent(nameKebabCase), 'utf-8')
     console.log('package.json created!');
-    fs.writeFileSync(path.join(_path, '.gitignore'), 'node_modules\nlogs\n.vscode\npackage-lock.json', 'utf-8');
+    fs.writeFileSync(path.join(projectPath, '.gitignore'), 'node_modules\nlogs\n.vscode\npackage-lock.json', 'utf-8');
     console.log('.gitignore created!');
-    fs.writeFileSync(path.join(_path, 'Dockerfile'), docker.getContent(_port, _database), 'utf-8');
+    fs.writeFileSync(path.join(projectPath, 'Dockerfile'), docker.getContent(_port, schemabase), 'utf-8');
     console.log('Dockerfile created!');
-    fs.writeFileSync(path.join(_path, '.dockerignore'), 'node_modules\nlogs\n.vscode\npackage-lock.json', 'utf-8');
+    fs.writeFileSync(path.join(projectPath, '.dockerignore'), 'node_modules\nlogs\n.vscode\npackage-lock.json', 'utf-8');
     console.log('.dockerignore created!');
-    fs.writeFileSync(path.join(_path, 'README.md'), readme.getContent(_nameKebabCase), 'utf-8');
+    fs.writeFileSync(path.join(projectPath, 'README.md'), readme.getContent(nameKebabCase), 'utf-8');
     console.log('README.md created!');
 }
 

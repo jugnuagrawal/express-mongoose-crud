@@ -1,5 +1,5 @@
 
-function _getContent() {
+function getContent() {
     return `
 module.exports = {
     "get": {
@@ -29,4 +29,4 @@ module.exports = {
 }
 
 
-module.exports.getContent = _getContent;
+module.exports.getContent = getContent;

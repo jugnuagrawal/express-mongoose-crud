@@ -16,7 +16,7 @@ const generator = require('express-mongoose-crud');
 
 var schema = {
     "name": "User Details",
-    "api": "/user",
+    "basePath": "/user",
     "port": 3000,
     "database": "users",
     "schema": {
@@ -82,7 +82,7 @@ $ misgen schema.json
 ```javascript
 {
     "name":"User Details", //Required. Name of this microservice
-    "api":"/user", //Optional. API URL of this microservice
+    "basePath":"/user", //Optional. API URL of this microservice
     "port":3000, //Optional. Port number in which this microservice will be running
     "database":"users", //Optional. Name of database in which this microservice will create it's collection
     "schema":{

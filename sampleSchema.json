@@ -1,6 +1,6 @@
 {
     "name": "User Details",
-    "api": "/user",
+    "basePath": "/user",
     "schema": {
         "name": "String",
         "email": {

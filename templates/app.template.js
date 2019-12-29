@@ -1,22 +1,25 @@
-const path = require('path');
-
-module.exports.getContent = _getContent;
-
-function _getContent(_nameKebabCase, _api, _database, _port) {
+/**
+ * 
+ * @param {string} nameKebabCase 
+ * @param {string} basePath 
+ * @param {string} database 
+ * @param {string} port 
+ */
+function getContent(nameKebabCase, basePath, database, port) {
     return `const express = require('express');
 const bodyParser = require('body-parser');
 const log4js = require('log4js');
 const mongoose = require('mongoose');
 
 
-const messages = require('./messages/${_nameKebabCase}.messages');
+const messages = require('./messages/${nameKebabCase}.messages');
 const controllers = require('./controllers');
 
 const logger = log4js.getLogger('server');
 const app = express();
 
-const PORT = process.env.PORT || 3000;
-const MONGO_URL = process.env.MONGO_URL || 'mongodb://localhost:27017/userDetails';
+const PORT = process.env.PORT || ${port};
+const MONGO_URL = process.env.MONGO_URL || 'mongodb://localhost:27017/${database}';
 const LOG_LEVEL = process.env.LOG_LEVEL || 'info';
 
 //log4js configuration
@@ -54,10 +57,10 @@ app.use((req, res, next) => {
     }
 });
 
-app.use('/api', controllers);
-app.get('/', (req, res) => {
+app.use('${basePath}/api', controllers);
+app.get('${basePath}/', (req, res) => {
     res.status(200).json({
-        message: '${_nameKebabCase} is running'
+        message: '${nameKebabCase} is running'
     });
 });
 
@@ -77,5 +80,6 @@ app.listen(PORT, (err) => {
         logger.info('Server started is listening on', PORT);
     }
 });`;
-
 }
+
+module.exports.getContent = getContent;

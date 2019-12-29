@@ -1,13 +1,17 @@
-
-function _getContent(_nameCamelCase, _nameKebabCase) {
+/**
+ * 
+ * @param {string} nameCamelCase 
+ * @param {string} nameKebabCase 
+ */
+function getContent(nameCamelCase, nameKebabCase) {
     return `const router = require('express').Router();
-const ${_nameCamelCase}Controller = require('./${_nameKebabCase}.controller.js');
+const ${nameCamelCase}Controller = require('./${nameKebabCase}.controller.js');
 
-router.use('/', ${_nameCamelCase}Controller);
+router.use('/', ${nameCamelCase}Controller);
 
 module.exports = router;
 `;
 }
 
 
-module.exports.getContent = _getContent;
+module.exports.getContent = getContent;
